@@ -1,0 +1,245 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Arcland - 3D Landscape</title>
+    <meta
+      name="description"
+      content="A fast, cinematic Three.js landscape built for modern storytelling."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div id="scene" aria-hidden="true"></div>
+    <div id="app">
+      <header class="topbar">
+        <div class="brand">
+          <span class="brand-mark"></span>
+          <span class="brand-text">Arcland</span>
+        </div>
+        <nav class="nav">
+          <a href="#studio">Studio</a>
+          <a href="#work">Work</a>
+          <a href="#tech">Tech</a>
+          <a href="#labs">Labs</a>
+          <a href="#contact">Contact</a>
+        </nav>
+        <button class="ghost-button">Book a demo</button>
+      </header>
+
+      <main class="hero">
+        <p class="eyebrow">Realtime spatial experience</p>
+        <h1>Terrain that breathes. Motion that feels engineered.</h1>
+        <p class="lead">
+          A fast, GPU-friendly Three.js landscape built for modern storytelling.
+          Responsive, cinematic, and tuned for smooth 60fps delivery.
+        </p>
+        <div class="actions">
+          <button class="primary-button">Launch prototype</button>
+          <button class="ghost-button">View process</button>
+        </div>
+      </main>
+
+      <section class="stats">
+        <div>
+          <span class="stat-label">Latency</span>
+          <span class="stat-value">12ms</span>
+        </div>
+        <div>
+          <span class="stat-label">Frames</span>
+          <span class="stat-value">60fps</span>
+        </div>
+        <div>
+          <span class="stat-label">Scene</span>
+          <span class="stat-value">184k tris</span>
+        </div>
+        <div>
+          <span class="stat-label">Payload</span>
+          <span class="stat-value">~170kb gz</span>
+        </div>
+      </section>
+
+      <section id="studio" class="section reveal">
+        <div class="section-head">
+          <p class="eyebrow">Studio</p>
+          <h2>Hybrid craft for realtime worlds.</h2>
+          <p class="section-lead">
+            We build immersive landscapes with the discipline of a product team
+            and the taste of a film studio. Every scene is optimized, layered,
+            and tuned for the long scroll.
+          </p>
+        </div>
+        <div class="section-grid">
+          <article class="glass-card stagger delay-1">
+            <h3>Spatial direction</h3>
+            <p>
+              Moodboards, lighting rigs, and material libraries that keep a
+              consistent cinematic language.
+            </p>
+            <span class="tag">Creative</span>
+          </article>
+          <article class="glass-card stagger delay-2">
+            <h3>Realtime systems</h3>
+            <p>
+              Low-poly terrain, instanced meshes, and shader tricks designed to
+              keep the GPU under control.
+            </p>
+            <span class="tag">Performance</span>
+          </article>
+          <article class="glass-card stagger delay-3">
+            <h3>Story choreography</h3>
+            <p>
+              Scroll-driven pacing, micro-interactions, and layered copy that
+              reveal the narrative gradually.
+            </p>
+            <span class="tag">Experience</span>
+          </article>
+        </div>
+      </section>
+
+      <section id="work" class="section reveal split">
+        <div class="split-text">
+          <p class="eyebrow">Selected work</p>
+          <h2>Scenes that feel tangible, yet impossible.</h2>
+          <p class="section-lead">
+            From branded launches to speculative architecture, we prototype
+            spatial stories that react to motion and feel alive.
+          </p>
+          <div class="split-metrics">
+            <div>
+              <span class="stat-label">Avg. session</span>
+              <span class="stat-value">2m 14s</span>
+            </div>
+            <div>
+              <span class="stat-label">Scroll depth</span>
+              <span class="stat-value">86%</span>
+            </div>
+          </div>
+        </div>
+        <div class="split-media">
+          <div class="media-panel stagger delay-1">
+            <div class="media-label">Fjord Broadcast</div>
+          </div>
+          <div class="media-panel stagger delay-2">
+            <div class="media-label">Terminal Atlas</div>
+          </div>
+          <div class="media-panel stagger delay-3">
+            <div class="media-label">Neon Basin</div>
+          </div>
+        </div>
+      </section>
+
+      <section id="tech" class="section reveal">
+        <div class="section-head">
+          <p class="eyebrow">Tech stack</p>
+          <h2>Performance-first pipeline.</h2>
+          <p class="section-lead">
+            We keep the payload lean and the animation smooth by layering
+            lightweight geometry with procedural motion and sparse lighting.
+          </p>
+        </div>
+        <div class="timeline">
+          <div class="timeline-item stagger delay-1">
+            <span class="timeline-step">Layer 01</span>
+            <h3>Procedural terrain</h3>
+            <p>
+              Low-cost noise deformation with cached normals and tuned vertex
+              density.
+            </p>
+          </div>
+          <div class="timeline-item stagger delay-2">
+            <span class="timeline-step">Layer 02</span>
+            <h3>Instanced artifacts</h3>
+            <p>
+              Repeated monoliths and silhouettes for depth without extra draw
+              calls.
+            </p>
+          </div>
+          <div class="timeline-item stagger delay-3">
+            <span class="timeline-step">Layer 03</span>
+            <h3>Atmospheric polish</h3>
+            <p>
+              Fog gradients, toned lighting, and soft particle fields for
+              cinematic scale.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section id="labs" class="section reveal">
+        <div class="section-head">
+          <p class="eyebrow">Lab modules</p>
+          <h2>3D artifacts inside the content.</h2>
+          <p class="section-lead">
+            Each card below renders a mini Three.js scene to keep the story
+            dimensional, not just the backdrop.
+          </p>
+        </div>
+        <div class="inline-3d-grid">
+          <article class="inline-3d-card stagger delay-1">
+            <div class="inline-3d" data-scene="orbit" aria-hidden="true"></div>
+            <div class="inline-3d-copy">
+              <h3>Orbital relay</h3>
+              <p>Rotating carriers and satellites to visualize routing flow.</p>
+            </div>
+          </article>
+          <article class="inline-3d-card stagger delay-2">
+            <div class="inline-3d" data-scene="prism" aria-hidden="true"></div>
+            <div class="inline-3d-copy">
+              <h3>Prism vault</h3>
+              <p>Layered geometry with emissive edges and scan-lit cores.</p>
+            </div>
+          </article>
+          <article class="inline-3d-card stagger delay-3">
+            <div class="inline-3d" data-scene="flow" aria-hidden="true"></div>
+            <div class="inline-3d-copy">
+              <h3>Flux bloom</h3>
+              <p>Continuous loops that react to scroll velocity and light.</p>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section class="section reveal quote">
+        <div class="quote-card stagger delay-1">
+          <p class="eyebrow">Field note</p>
+          <h2>"Make the user feel like they are gliding."</h2>
+          <p class="section-lead">
+            That is the rule we follow when shaping the camera, easing the
+            scroll, and layering motion in the background.
+          </p>
+        </div>
+      </section>
+
+      <section id="contact" class="section reveal cta">
+        <div class="cta-card stagger delay-1">
+          <div>
+            <p class="eyebrow">Contact</p>
+            <h2>Ready to build a living landscape?</h2>
+            <p class="section-lead">
+              Tell us about your launch, product, or research lab. We will
+              respond with a prototype outline and delivery timeline.
+            </p>
+          </div>
+          <div class="cta-actions">
+            <button class="primary-button">Start a project</button>
+            <button class="ghost-button">Download deck</button>
+          </div>
+        </div>
+      </section>
+
+      <footer class="footer">
+        <span>Hybrid spatial direction - Tokyo / Berlin</span>
+        <span>(c) 2026 Arcland Studio</span>
+      </footer>
+    </div>
+
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>
