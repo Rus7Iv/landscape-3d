@@ -7,13 +7,14 @@ import type { ScrollState } from "../../types/scroll";
 type BackgroundSceneProps = {
   reducedMotion: boolean;
   scrollRef: MutableRefObject<ScrollState>;
+  isMobile: boolean;
 };
 
 const terrainScale = 0.06;
 const terrainHeight = 4.6;
 const waveHeight = 1.2;
 
-const BackgroundScene = ({ reducedMotion, scrollRef }: BackgroundSceneProps) => {
+const BackgroundScene = ({ reducedMotion, scrollRef, isMobile }: BackgroundSceneProps) => {
   const { camera } = useThree();
   const worldRef = useRef<THREE.Group>(null);
   const starsRef = useRef<THREE.Points>(null);
@@ -49,7 +50,8 @@ const BackgroundScene = ({ reducedMotion, scrollRef }: BackgroundSceneProps) => 
   }, []);
 
   const terrain = useMemo(() => {
-    const geometry = new THREE.PlaneGeometry(180, 180, 180, 180);
+    const segments = isMobile ? 120 : 180;
+    const geometry = new THREE.PlaneGeometry(180, 180, segments, segments);
     geometry.rotateX(-Math.PI / 2);
     const positionAttribute = geometry.attributes.position as THREE.BufferAttribute;
     const positions = positionAttribute.array as Float32Array;
@@ -64,7 +66,7 @@ const BackgroundScene = ({ reducedMotion, scrollRef }: BackgroundSceneProps) => 
     }
 
     return { geometry, positionAttribute, positions, baseHeights, xz };
-  }, []);
+  }, [isMobile]);
 
   const terrainMaterial = useMemo(
     () =>
@@ -79,13 +81,14 @@ const BackgroundScene = ({ reducedMotion, scrollRef }: BackgroundSceneProps) => 
   const noise = useMemo(() => new ImprovedNoise(), []);
 
   const monolithsData = useMemo(() => {
+    const count = isMobile ? 28 : 46;
     const items: Array<{
       position: THREE.Vector3;
       scale: THREE.Vector3;
       rotationY: number;
     }> = [];
 
-    for (let i = 0; i < 46; i++) {
+    for (let i = 0; i < count; i++) {
       const angle = Math.random() * Math.PI * 2;
       const radius = 18 + Math.random() * 58;
       const height = 3 + Math.random() * 14;
@@ -105,7 +108,7 @@ const BackgroundScene = ({ reducedMotion, scrollRef }: BackgroundSceneProps) => 
     }
 
     return items;
-  }, []);
+  }, [isMobile]);
 
   const monolithGeometry = useMemo(() => new THREE.BoxGeometry(1, 1, 1), []);
   const monolithMaterial = useMemo(
@@ -134,7 +137,7 @@ const BackgroundScene = ({ reducedMotion, scrollRef }: BackgroundSceneProps) => 
   }, [monolithsData]);
 
   const stars = useMemo(() => {
-    const starCount = 900;
+    const starCount = isMobile ? 520 : 900;
     const geometry = new THREE.BufferGeometry();
     const starPositions = new Float32Array(starCount * 3);
 
@@ -157,7 +160,7 @@ const BackgroundScene = ({ reducedMotion, scrollRef }: BackgroundSceneProps) => 
     });
 
     return { geometry, material };
-  }, []);
+  }, [isMobile]);
 
   const ringMaterial = useMemo(
     () =>
@@ -186,8 +189,9 @@ const BackgroundScene = ({ reducedMotion, scrollRef }: BackgroundSceneProps) => 
   );
 
   const beaconMaterials = useMemo(() => {
+    const count = isMobile ? 7 : 9;
     const materials: THREE.MeshStandardMaterial[] = [];
-    for (let i = 0; i < 9; i++) {
+    for (let i = 0; i < count; i++) {
       materials.push(
         new THREE.MeshStandardMaterial({
           color: 0x1d3a46,
@@ -201,10 +205,10 @@ const BackgroundScene = ({ reducedMotion, scrollRef }: BackgroundSceneProps) => 
       );
     }
     return materials;
-  }, []);
+  }, [isMobile]);
 
   const beacons = useMemo(() => {
-    const count = 9;
+    const count = isMobile ? 7 : 9;
     const items: Array<{ angle: number; radius: number; height: number }> = [];
 
     for (let i = 0; i < count; i++) {
@@ -215,7 +219,7 @@ const BackgroundScene = ({ reducedMotion, scrollRef }: BackgroundSceneProps) => 
     }
 
     return items;
-  }, []);
+  }, [isMobile]);
 
   const signal = useMemo(() => {
     const points: THREE.Vector3[] = [];
@@ -251,7 +255,7 @@ const BackgroundScene = ({ reducedMotion, scrollRef }: BackgroundSceneProps) => 
 
   const droneData = useMemo(() => {
     const items: Array<{ x: number; z: number }> = [];
-    const count = 10;
+    const count = isMobile ? 6 : 10;
     for (let i = 0; i < count; i++) {
       const angle = (i / count) * Math.PI * 2;
       const radius = 12 + Math.random() * 8;
@@ -261,7 +265,7 @@ const BackgroundScene = ({ reducedMotion, scrollRef }: BackgroundSceneProps) => 
       });
     }
     return items;
-  }, []);
+  }, [isMobile]);
 
   const updateTerrain = (time: number, heightScale: number, waveScale: number) => {
     const offset = time * 0.6;
@@ -290,6 +294,9 @@ const BackgroundScene = ({ reducedMotion, scrollRef }: BackgroundSceneProps) => 
       lastNormalUpdate.current = time;
     }
   };
+
+  const orbitBaseX = isMobile ? 8 : 14;
+  const orbitScrollX = isMobile ? 3.5 : 6;
 
   useFrame((state) => {
     const elapsed = state.clock.getElapsedTime();
@@ -330,7 +337,7 @@ const BackgroundScene = ({ reducedMotion, scrollRef }: BackgroundSceneProps) => 
       const orbitTime = drift * 0.6 + scrollT * 1.4;
       orbitGroupRef.current.rotation.y = orbitTime;
       orbitGroupRef.current.rotation.x = drift * 0.15 - scrollT * 0.25;
-      orbitGroupRef.current.position.x = -14 + scrollT * 6;
+      orbitGroupRef.current.position.x = orbitBaseX - scrollT * orbitScrollX;
       orbitGroupRef.current.position.y =
         8 + Math.sin(drift * 0.6) * 1.2 + scrollT * 6;
       orbitGroupRef.current.position.z = 6 - scrollT * 18;
@@ -374,22 +381,38 @@ const BackgroundScene = ({ reducedMotion, scrollRef }: BackgroundSceneProps) => 
     <>
       <fog ref={fogRef} attach="fog" args={[0x0b0f14, 18, 140]} />
       <hemisphereLight args={[0xbad7ff, 0x101820, 0.6]} />
-      <directionalLight position={[-24, 28, 12]} intensity={1.2} color={0xffb48a} />
-      <directionalLight position={[22, 18, -26]} intensity={0.7} color={0x24d4cc} />
+      <directionalLight
+        position={[-24, 28, 12]}
+        intensity={1.2}
+        color={0xffb48a}
+      />
+      <directionalLight
+        position={[22, 18, -26]}
+        intensity={0.7}
+        color={0x24d4cc}
+      />
 
       <group ref={worldRef}>
-        <mesh geometry={terrain.geometry} material={terrainMaterial} position={[0, -6, 0]} />
+        <mesh
+          geometry={terrain.geometry}
+          material={terrainMaterial}
+          position={[0, -6, 0]}
+        />
 
         <instancedMesh
           ref={monolithsRef}
           args={[monolithGeometry, monolithMaterial, monolithsData.length]}
         />
 
-        <points ref={starsRef} geometry={stars.geometry} material={stars.material} />
+        <points
+          ref={starsRef}
+          geometry={stars.geometry}
+          material={stars.material}
+        />
 
-        <group ref={orbitGroupRef} position={[-14, 8, 6]}>
+        <group ref={orbitGroupRef} position={[orbitBaseX, 8, 6]}>
           <mesh>
-            <icosahedronGeometry args={[2.4, 1]} />
+            <sphereGeometry args={[2.4, 32, 32]} />
             <meshStandardMaterial
               color={0xffb48a}
               emissive={0xff6a3d}

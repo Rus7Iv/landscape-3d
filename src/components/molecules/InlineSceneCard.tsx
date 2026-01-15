@@ -8,6 +8,7 @@ type InlineSceneCardProps = {
   variant: "orbit" | "prism" | "flow";
   reducedMotion: boolean;
   scrollRef: MutableRefObject<ScrollState>;
+  isMobile: boolean;
   delayClass: string;
 };
 
@@ -17,11 +18,17 @@ const InlineSceneCard = ({
   variant,
   reducedMotion,
   scrollRef,
+  isMobile,
   delayClass,
 }: InlineSceneCardProps) => {
   return (
     <article className={`inline-3d-card stagger ${delayClass}`}>
-      <InlineScene variant={variant} reducedMotion={reducedMotion} scrollRef={scrollRef} />
+      <InlineScene
+        variant={variant}
+        reducedMotion={reducedMotion}
+        scrollRef={scrollRef}
+        isMobile={isMobile}
+      />
       <div className="inline-3d-copy">
         <h3>{title}</h3>
         <p>{description}</p>

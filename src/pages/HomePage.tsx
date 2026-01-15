@@ -1,10 +1,12 @@
 import { useEffect, useRef } from "react";
 import LandingTemplate from "../components/templates/LandingTemplate";
 import useReducedMotion from "../hooks/useReducedMotion";
+import useIsMobile from "../hooks/useIsMobile";
 import type { ScrollState } from "../types/scroll";
 
 const HomePage = () => {
   const reducedMotion = useReducedMotion();
+  const isMobile = useIsMobile();
   const scrollRef = useRef<ScrollState>({ current: 0, target: 0 });
 
   useEffect(() => {
@@ -56,7 +58,13 @@ const HomePage = () => {
     return () => observer?.disconnect();
   }, [reducedMotion]);
 
-  return <LandingTemplate reducedMotion={reducedMotion} scrollRef={scrollRef} />;
+  return (
+    <LandingTemplate
+      reducedMotion={reducedMotion}
+      scrollRef={scrollRef}
+      isMobile={isMobile}
+    />
+  );
 };
 
 export default HomePage;

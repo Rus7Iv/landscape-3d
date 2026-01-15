@@ -6,9 +6,10 @@ import type { MutableRefObject } from "react";
 type LabsSectionProps = {
   reducedMotion: boolean;
   scrollRef: MutableRefObject<ScrollState>;
+  isMobile: boolean;
 };
 
-const LabsSection = ({ reducedMotion, scrollRef }: LabsSectionProps) => {
+const LabsSection = ({ reducedMotion, scrollRef, isMobile }: LabsSectionProps) => {
   return (
     <section id="labs" className="section reveal">
       <SectionHead
@@ -23,6 +24,7 @@ const LabsSection = ({ reducedMotion, scrollRef }: LabsSectionProps) => {
           variant="orbit"
           reducedMotion={reducedMotion}
           scrollRef={scrollRef}
+          isMobile={isMobile}
           delayClass="delay-1"
         />
         <InlineSceneCard
@@ -31,6 +33,7 @@ const LabsSection = ({ reducedMotion, scrollRef }: LabsSectionProps) => {
           variant="prism"
           reducedMotion={reducedMotion}
           scrollRef={scrollRef}
+          isMobile={isMobile}
           delayClass="delay-2"
         />
         <InlineSceneCard
@@ -39,6 +42,7 @@ const LabsSection = ({ reducedMotion, scrollRef }: LabsSectionProps) => {
           variant="flow"
           reducedMotion={reducedMotion}
           scrollRef={scrollRef}
+          isMobile={isMobile}
           delayClass="delay-3"
         />
       </div>

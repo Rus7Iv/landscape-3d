@@ -9,6 +9,7 @@ type InlineSceneProps = {
   variant: Variant;
   reducedMotion: boolean;
   scrollRef: MutableRefObject<ScrollState>;
+  isMobile: boolean;
 };
 
 type InlineSceneContentProps = InlineSceneProps;
@@ -212,12 +213,14 @@ const InlineSceneContent = ({
   );
 };
 
-const InlineScene = ({ variant, reducedMotion, scrollRef }: InlineSceneProps) => {
+const InlineScene = ({ variant, reducedMotion, scrollRef, isMobile }: InlineSceneProps) => {
+  const dpr = isMobile ? [1, 1.5] : [1, 2];
+
   return (
     <div className="inline-3d" aria-hidden="true">
       <Canvas
         className="inline-canvas"
-        dpr={[1, 2]}
+        dpr={dpr}
         camera={{ fov: 32, near: 0.1, far: 40, position: [0, 0, 9] }}
         gl={{ antialias: true, alpha: true, powerPreference: "high-performance" }}
         onCreated={({ gl }) => {
