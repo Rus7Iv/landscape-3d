@@ -1,7 +1,12 @@
 import Button from "../atoms/Button";
 import Eyebrow from "../atoms/Eyebrow";
 
-const ContactSection = () => {
+type ContactSectionProps = {
+  onComingSoon: () => void;
+};
+
+const ContactSection = ({ onComingSoon }: ContactSectionProps) => {
+
   return (
     <section id="contact" className="section reveal cta">
       <div className="cta-card stagger delay-1">
@@ -14,8 +19,12 @@ const ContactSection = () => {
           </p>
         </div>
         <div className="cta-actions">
-          <Button variant="primary">Start a project</Button>
-          <Button variant="ghost">Download deck</Button>
+          <Button variant="primary" onClick={onComingSoon}>
+            Start a project
+          </Button>
+          <Button variant="ghost" onClick={onComingSoon}>
+            Download deck
+          </Button>
         </div>
       </div>
     </section>
