@@ -2,6 +2,7 @@ import SectionHead from "../molecules/SectionHead";
 import InlineSceneCard from "../molecules/InlineSceneCard";
 import type { ScrollState } from "../../types/scroll";
 import type { MutableRefObject } from "react";
+import { Link } from "react-router-dom";
 
 type LabsSectionProps = {
   reducedMotion: boolean;
@@ -45,6 +46,18 @@ const LabsSection = ({ reducedMotion, scrollRef, isMobile }: LabsSectionProps) =
           isMobile={isMobile}
           delayClass="delay-3"
         />
+      </div>
+      <div className="labs-link-card stagger delay-4">
+        <div>
+          <p className="tag">New module</p>
+          <h3>Solar system page</h3>
+          <p className="section-lead">
+            Dedicated route for the full-scale solar system scene and controls.
+          </p>
+        </div>
+        <Link className="primary-button" to="/solar-system">
+          Open module
+        </Link>
       </div>
     </section>
   );
