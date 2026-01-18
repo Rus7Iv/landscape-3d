@@ -1,0 +1,10 @@
+.section-head {
+  max-width: 640px;
+  display: grid;
+  gap: 12px;
+}
+
+.section-head__title {
+  font-size: clamp(2rem, 4vw, 3rem);
+  margin: 0;
+}

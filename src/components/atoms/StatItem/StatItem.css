@@ -1,0 +1,28 @@
+.stat-item {
+  padding: 18px;
+  border-radius: 16px;
+  background: rgba(12, 17, 22, 0.7);
+  border: 1px solid var(--border);
+  display: grid;
+  gap: 8px;
+  backdrop-filter: blur(16px);
+}
+
+.stat-item--compact {
+  padding: 16px 18px;
+  background: rgba(12, 17, 22, 0.6);
+  backdrop-filter: none;
+}
+
+.stat-item__label {
+  font-family: var(--font-mono);
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  font-size: 0.68rem;
+  color: var(--muted);
+}
+
+.stat-item__value {
+  font-size: 1.4rem;
+  font-weight: 600;
+}

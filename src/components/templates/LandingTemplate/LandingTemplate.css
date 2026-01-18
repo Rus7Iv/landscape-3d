@@ -1,0 +1,38 @@
+.landing-template {
+  position: relative;
+  min-height: 100vh;
+}
+
+.landing-template__scene {
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+}
+
+.landing-template__scene canvas {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.landing-template__content {
+  position: relative;
+  z-index: 2;
+  min-height: 100vh;
+  padding: 32px clamp(20px, 6vw, 80px) 48px;
+  display: flex;
+  flex-direction: column;
+  gap: clamp(32px, 6vh, 60px);
+  animation: landing-template-fade-up 1.2s ease-out both;
+}
+
+@keyframes landing-template-fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

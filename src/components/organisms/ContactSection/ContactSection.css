@@ -1,0 +1,17 @@
+.contact-section__card {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 24px;
+  padding: clamp(24px, 4vw, 36px);
+  border-radius: 24px;
+  background: linear-gradient(120deg, rgba(255, 106, 61, 0.28), rgba(12, 18, 25, 0.8));
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  align-items: center;
+}
+
+.contact-section__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  justify-content: flex-start;
+}

@@ -1,0 +1,26 @@
+.studio-section__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 20px;
+}
+
+.studio-section__card {
+  padding: 22px;
+  border-radius: 18px;
+  background: var(--glass);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow);
+  display: grid;
+  gap: 12px;
+}
+
+.studio-section__card h3 {
+  margin: 0;
+  font-size: 1.2rem;
+}
+
+.studio-section__card p {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.6;
+}
