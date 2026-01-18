@@ -1,5 +1,5 @@
 import { Canvas } from "@react-three/fiber";
-import * as THREE from "three";
+import { ACESFilmicToneMapping, SRGBColorSpace } from "three";
 import type { MutableRefObject } from "react";
 import type { ScrollState } from "../../types/scroll";
 import BackgroundScene from "../organisms/BackgroundScene";
@@ -21,7 +21,7 @@ type LandingTemplateProps = {
 };
 
 const LandingTemplate = ({ reducedMotion, scrollRef, isMobile }: LandingTemplateProps) => {
-  const dpr = isMobile ? [1, 1.5] : [1, 2];
+  const dpr: [number, number] = isMobile ? [1, 1.5] : [1, 2];
 
   return (
     <>
@@ -31,8 +31,8 @@ const LandingTemplate = ({ reducedMotion, scrollRef, isMobile }: LandingTemplate
           camera={{ fov: 48, near: 0.1, far: 240, position: [0, 18, 52] }}
           gl={{ antialias: true, alpha: true, powerPreference: "high-performance" }}
           onCreated={({ gl }) => {
-            gl.outputColorSpace = THREE.SRGBColorSpace;
-            gl.toneMapping = THREE.ACESFilmicToneMapping;
+            gl.outputColorSpace = SRGBColorSpace;
+            gl.toneMapping = ACESFilmicToneMapping;
             gl.toneMappingExposure = 1.05;
             gl.setClearColor(0x0b0f14, 0);
           }}
