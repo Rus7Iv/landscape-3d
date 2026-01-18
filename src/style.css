@@ -162,6 +162,51 @@ body::after {
   flex-wrap: wrap;
 }
 
+.notification-toast {
+  position: fixed;
+  bottom: 32px;
+  right: clamp(20px, 6vw, 80px);
+  z-index: 6;
+  padding: 14px 18px 16px;
+  border-radius: 18px;
+  background: linear-gradient(140deg, rgba(13, 18, 24, 0.92), rgba(13, 18, 24, 0.6));
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow);
+  backdrop-filter: blur(16px);
+  display: grid;
+  gap: 6px;
+  opacity: 0;
+  transform: translateY(12px);
+  pointer-events: none;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.notification-toast::before {
+  content: "";
+  width: 38px;
+  height: 2px;
+  border-radius: 999px;
+  background: linear-gradient(120deg, var(--accent), var(--accent-2));
+}
+
+.notification-toast.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.notification-toast-tag {
+  font-family: var(--font-mono);
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  font-size: 0.62rem;
+  color: var(--accent-2);
+}
+
+.notification-toast-copy {
+  font-size: 0.95rem;
+  color: var(--text);
+}
+
 button {
   font-family: var(--font-sans);
   border: none;
@@ -193,6 +238,7 @@ button {
   letter-spacing: 0.12em;
   font-size: 0.72rem;
   transition: border 0.3s ease, background 0.3s ease;
+  text-decoration: none;
 }
 
 .ghost-button:hover {
@@ -446,6 +492,130 @@ button {
   gap: 16px;
 }
 
+.labs-link-card {
+  padding: clamp(20px, 3vw, 28px);
+  border-radius: 20px;
+  background: linear-gradient(130deg, rgba(37, 212, 204, 0.12), rgba(12, 18, 25, 0.75));
+  border: 1px solid var(--border);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.labs-link-card h3 {
+  margin: 12px 0 6px;
+  font-size: 1.4rem;
+}
+
+.solar-system-page {
+  min-height: 100vh;
+  padding: 32px clamp(20px, 6vw, 80px) 32px;
+  display: grid;
+  gap: clamp(20px, 2vh, 40px);
+}
+
+.solar-system-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.solar-system-shell {
+  display: grid;
+  gap: 20px;
+  max-width: 1120px;
+}
+
+.solar-system-shell h1 {
+  margin: 0;
+}
+
+.solar-system-stage {
+  position: relative;
+  min-height: clamp(360px, 70vh, 720px);
+  border-radius: 28px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: radial-gradient(circle at 20% 20%, rgba(255, 106, 61, 0.15), rgba(8, 12, 18, 0.95));
+  overflow: hidden;
+  box-shadow: var(--shadow);
+  user-select: none;
+}
+
+.solar-system-canvas {
+  position: absolute;
+  inset: 0;
+}
+
+.solar-system-canvas canvas {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.solar-system-overlay {
+  position: relative;
+  z-index: 2;
+  max-width: 360px;
+  margin: 0;
+  padding: 18px 20px;
+  border-radius: 18px;
+  border: 1px solid var(--border);
+  background: rgba(9, 12, 16, 0.65);
+  backdrop-filter: blur(14px);
+  display: grid;
+  gap: 10px;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.solar-system-overlay-wrap {
+  position: absolute;
+  top: clamp(14px, 3vw, 24px);
+  right: clamp(14px, 3vw, 24px);
+  z-index: 3;
+  display: grid;
+  justify-items: end;
+  gap: 10px;
+}
+
+.solar-system-overlay.is-closed {
+  opacity: 0;
+  transform: translateY(-10px) scale(0.98);
+  pointer-events: none;
+}
+
+.solar-system-overlay.is-open {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+.solar-system-overlay-toggle {
+  padding: 10px 16px;
+  border-radius: 999px;
+  background: rgba(10, 14, 18, 0.7);
+  color: var(--text);
+  border: 1px solid var(--border);
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background 0.3s ease, border 0.3s ease, transform 0.3s ease;
+}
+
+.solar-system-overlay-toggle:hover {
+  background: rgba(255, 255, 255, 0.1);
+  transform: translateY(-1px);
+}
+
+.solar-system-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
 .inline-3d {
   position: relative;
   height: 210px;
@@ -587,6 +757,12 @@ button {
 
   .split-metrics {
     flex-direction: column;
+  }
+
+  .notification-toast {
+    left: 20px;
+    right: 20px;
+    bottom: 20px;
   }
 }
 

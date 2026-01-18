@@ -1,6 +1,15 @@
 import { useMemo, useRef, type MutableRefObject } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
-import * as THREE from "three";
+import type { Group, Mesh } from "three";
+import {
+  ACESFilmicToneMapping,
+  BoxGeometry,
+  DoubleSide,
+  EdgesGeometry,
+  LineBasicMaterial,
+  MeshStandardMaterial,
+  SRGBColorSpace,
+} from "three";
 import type { ScrollState } from "../../types/scroll";
 
 type Variant = "orbit" | "prism" | "flow";
@@ -12,21 +21,21 @@ type InlineSceneProps = {
   isMobile: boolean;
 };
 
-type InlineSceneContentProps = InlineSceneProps;
+type InlineSceneContentProps = Omit<InlineSceneProps, "isMobile">;
 
 const InlineSceneContent = ({
   variant,
   reducedMotion,
   scrollRef,
 }: InlineSceneContentProps) => {
-  const groupRef = useRef<THREE.Group>(null);
-  const satellitesRef = useRef<THREE.Mesh[]>([]);
-  const spineRef = useRef<THREE.Mesh>(null);
-  const haloRef = useRef<THREE.Mesh>(null);
+  const groupRef = useRef<Group>(null);
+  const satellitesRef = useRef<Mesh[]>([]);
+  const spineRef = useRef<Mesh>(null);
+  const haloRef = useRef<Mesh>(null);
 
   const prismMaterial = useMemo(
     () =>
-      new THREE.MeshStandardMaterial({
+      new MeshStandardMaterial({
         color: 0x1d3a46,
         emissive: 0x25d4cc,
         emissiveIntensity: 0.45,
@@ -38,7 +47,7 @@ const InlineSceneContent = ({
 
   const prismEdgeMaterial = useMemo(
     () =>
-      new THREE.LineBasicMaterial({
+      new LineBasicMaterial({
         color: 0x9ad7ff,
         transparent: true,
         opacity: 0.7,
@@ -48,7 +57,7 @@ const InlineSceneContent = ({
 
   const spineMaterial = useMemo(
     () =>
-      new THREE.MeshStandardMaterial({
+      new MeshStandardMaterial({
         color: 0xffb48a,
         emissive: 0xff6a3d,
         emissiveIntensity: 0.5,
@@ -60,7 +69,7 @@ const InlineSceneContent = ({
 
   const knotMaterial = useMemo(
     () =>
-      new THREE.MeshStandardMaterial({
+      new MeshStandardMaterial({
         color: 0x25d4cc,
         emissive: 0x25d4cc,
         emissiveIntensity: 0.55,
@@ -72,20 +81,20 @@ const InlineSceneContent = ({
 
   const haloMaterial = useMemo(
     () =>
-      new THREE.MeshStandardMaterial({
+      new MeshStandardMaterial({
         color: 0xff9565,
         emissive: 0xff6a3d,
         emissiveIntensity: 0.35,
         transparent: true,
         opacity: 0.65,
-        side: THREE.DoubleSide,
+        side: DoubleSide,
       }),
     []
   );
 
   const orbitMaterial = useMemo(
     () =>
-      new THREE.MeshStandardMaterial({
+      new MeshStandardMaterial({
         color: 0x9ad7ff,
         emissive: 0x9ad7ff,
         emissiveIntensity: 0.5,
@@ -99,7 +108,7 @@ const InlineSceneContent = ({
 
   const coreMaterial = useMemo(
     () =>
-      new THREE.MeshStandardMaterial({
+      new MeshStandardMaterial({
         color: 0xffb48a,
         emissive: 0xff6a3d,
         emissiveIntensity: 0.55,
@@ -109,9 +118,9 @@ const InlineSceneContent = ({
     []
   );
 
-  const prismGeometry = useMemo(() => new THREE.BoxGeometry(2.2, 2.6, 2.2), []);
+  const prismGeometry = useMemo(() => new BoxGeometry(2.2, 2.6, 2.2), []);
   const prismEdges = useMemo(
-    () => new THREE.EdgesGeometry(prismGeometry),
+    () => new EdgesGeometry(prismGeometry),
     [prismGeometry]
   );
 
@@ -161,7 +170,11 @@ const InlineSceneContent = ({
           <>
             <mesh geometry={prismGeometry} material={prismMaterial} />
             <lineSegments geometry={prismEdges} material={prismEdgeMaterial} />
-            <mesh ref={spineRef} material={spineMaterial} position={[0, -0.1, 0]}>
+            <mesh
+              ref={spineRef}
+              material={spineMaterial}
+              position={[0, -0.1, 0]}
+            >
               <cylinderGeometry args={[0.25, 0.45, 3.2, 16]} />
             </mesh>
           </>
@@ -214,7 +227,7 @@ const InlineSceneContent = ({
 };
 
 const InlineScene = ({ variant, reducedMotion, scrollRef, isMobile }: InlineSceneProps) => {
-  const dpr = isMobile ? [1, 1.5] : [1, 2];
+  const dpr: [number, number] = isMobile ? [1, 1.5] : [1, 2];
 
   return (
     <div className="inline-3d" aria-hidden="true">
@@ -222,10 +235,14 @@ const InlineScene = ({ variant, reducedMotion, scrollRef, isMobile }: InlineScen
         className="inline-canvas"
         dpr={dpr}
         camera={{ fov: 32, near: 0.1, far: 40, position: [0, 0, 9] }}
-        gl={{ antialias: true, alpha: true, powerPreference: "high-performance" }}
+        gl={{
+          antialias: true,
+          alpha: true,
+          powerPreference: "high-performance",
+        }}
         onCreated={({ gl }) => {
-          gl.outputColorSpace = THREE.SRGBColorSpace;
-          gl.toneMapping = THREE.ACESFilmicToneMapping;
+          gl.outputColorSpace = SRGBColorSpace;
+          gl.toneMapping = ACESFilmicToneMapping;
           gl.toneMappingExposure = 1.1;
           gl.setClearColor(0x000000, 0);
         }}

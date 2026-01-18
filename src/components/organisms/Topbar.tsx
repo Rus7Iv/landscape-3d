@@ -1,5 +1,5 @@
 import Brand from "../molecules/Brand";
-import Button from "../atoms/Button";
+import { Link } from "react-router-dom";
 
 const Topbar = () => {
   return (
@@ -12,7 +12,9 @@ const Topbar = () => {
         <a href="#labs">Labs</a>
         <a href="#contact">Contact</a>
       </nav>
-      <Button variant="ghost">Book a demo</Button>
+      <Link className="ghost-button" to="/solar-system">
+        Solar system
+      </Link>
     </header>
   );
 };

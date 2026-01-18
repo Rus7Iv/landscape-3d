@@ -1,7 +1,12 @@
 import Button from "../atoms/Button";
 import Eyebrow from "../atoms/Eyebrow";
 
-const Hero = () => {
+type HeroProps = {
+  onComingSoon: () => void;
+};
+
+const Hero = ({ onComingSoon }: HeroProps) => {
+
   return (
     <main className="hero">
       <Eyebrow>Realtime spatial experience</Eyebrow>
@@ -11,8 +16,12 @@ const Hero = () => {
         Responsive, cinematic, and tuned for smooth 60fps delivery.
       </p>
       <div className="actions">
-        <Button variant="primary">Launch prototype</Button>
-        <Button variant="ghost">View process</Button>
+        <Button variant="primary" onClick={onComingSoon}>
+          Launch prototype
+        </Button>
+        <Button variant="ghost" onClick={onComingSoon}>
+          View process
+        </Button>
       </div>
     </main>
   );

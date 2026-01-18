@@ -1,6 +1,20 @@
 import { useEffect, useMemo, useRef, type MutableRefObject } from "react";
 import { useFrame, useThree } from "@react-three/fiber";
-import * as THREE from "three";
+import type { Fog, Group, InstancedMesh, Mesh, Points } from "three";
+import {
+  BoxGeometry,
+  BufferAttribute,
+  BufferGeometry,
+  Line,
+  LineBasicMaterial,
+  MathUtils,
+  MeshStandardMaterial,
+  Object3D,
+  PlaneGeometry,
+  PointsMaterial,
+  Vector2,
+  Vector3,
+} from "three";
 import { ImprovedNoise } from "three/examples/jsm/math/ImprovedNoise.js";
 import type { ScrollState } from "../../types/scroll";
 
@@ -14,21 +28,25 @@ const terrainScale = 0.06;
 const terrainHeight = 4.6;
 const waveHeight = 1.2;
 
-const BackgroundScene = ({ reducedMotion, scrollRef, isMobile }: BackgroundSceneProps) => {
+const BackgroundScene = ({
+  reducedMotion,
+  scrollRef,
+  isMobile,
+}: BackgroundSceneProps) => {
   const { camera } = useThree();
-  const worldRef = useRef<THREE.Group>(null);
-  const starsRef = useRef<THREE.Points>(null);
-  const orbitGroupRef = useRef<THREE.Group>(null);
-  const signalPathRef = useRef<THREE.Line>(null);
-  const droneGroupRef = useRef<THREE.Group>(null);
-  const monolithsRef = useRef<THREE.InstancedMesh>(null);
-  const fogRef = useRef<THREE.Fog | null>(null);
+  const worldRef = useRef<Group>(null);
+  const starsRef = useRef<Points>(null);
+  const orbitGroupRef = useRef<Group>(null);
+  const signalPathRef = useRef<Line>(null);
+  const droneGroupRef = useRef<Group>(null);
+  const monolithsRef = useRef<InstancedMesh>(null);
+  const fogRef = useRef<Fog | null>(null);
 
-  const satellitesRef = useRef<THREE.Mesh[]>([]);
-  const dronesRef = useRef<THREE.Mesh[]>([]);
+  const satellitesRef = useRef<Mesh[]>([]);
+  const dronesRef = useRef<Mesh[]>([]);
 
-  const pointer = useRef(new THREE.Vector2());
-  const pointerTarget = useRef(new THREE.Vector2());
+  const pointer = useRef(new Vector2());
+  const pointerTarget = useRef(new Vector2());
   const lastNormalUpdate = useRef(0);
 
   useEffect(() => {
@@ -51,9 +69,9 @@ const BackgroundScene = ({ reducedMotion, scrollRef, isMobile }: BackgroundScene
 
   const terrain = useMemo(() => {
     const segments = isMobile ? 120 : 180;
-    const geometry = new THREE.PlaneGeometry(180, 180, segments, segments);
+    const geometry = new PlaneGeometry(180, 180, segments, segments);
     geometry.rotateX(-Math.PI / 2);
-    const positionAttribute = geometry.attributes.position as THREE.BufferAttribute;
+    const positionAttribute = geometry.attributes.position as BufferAttribute;
     const positions = positionAttribute.array as Float32Array;
     const baseHeights = new Float32Array(positionAttribute.count);
     const xz = new Float32Array(positionAttribute.count * 2);
@@ -70,7 +88,7 @@ const BackgroundScene = ({ reducedMotion, scrollRef, isMobile }: BackgroundScene
 
   const terrainMaterial = useMemo(
     () =>
-      new THREE.MeshStandardMaterial({
+      new MeshStandardMaterial({
         color: 0x0f232b,
         roughness: 0.78,
         metalness: 0.12,
@@ -83,8 +101,8 @@ const BackgroundScene = ({ reducedMotion, scrollRef, isMobile }: BackgroundScene
   const monolithsData = useMemo(() => {
     const count = isMobile ? 28 : 46;
     const items: Array<{
-      position: THREE.Vector3;
-      scale: THREE.Vector3;
+      position: Vector3;
+      scale: Vector3;
       rotationY: number;
     }> = [];
 
@@ -93,12 +111,12 @@ const BackgroundScene = ({ reducedMotion, scrollRef, isMobile }: BackgroundScene
       const radius = 18 + Math.random() * 58;
       const height = 3 + Math.random() * 14;
       items.push({
-        position: new THREE.Vector3(
+        position: new Vector3(
           Math.cos(angle) * radius,
           -6 + height * 0.5,
           Math.sin(angle) * radius
         ),
-        scale: new THREE.Vector3(
+        scale: new Vector3(
           1.2 + Math.random() * 1.8,
           height,
           1.2 + Math.random() * 1.8
@@ -110,10 +128,10 @@ const BackgroundScene = ({ reducedMotion, scrollRef, isMobile }: BackgroundScene
     return items;
   }, [isMobile]);
 
-  const monolithGeometry = useMemo(() => new THREE.BoxGeometry(1, 1, 1), []);
+  const monolithGeometry = useMemo(() => new BoxGeometry(1, 1, 1), []);
   const monolithMaterial = useMemo(
     () =>
-      new THREE.MeshStandardMaterial({
+      new MeshStandardMaterial({
         color: 0x1d3a46,
         roughness: 0.35,
         metalness: 0.6,
@@ -125,7 +143,7 @@ const BackgroundScene = ({ reducedMotion, scrollRef, isMobile }: BackgroundScene
     if (!monolithsRef.current) {
       return;
     }
-    const dummy = new THREE.Object3D();
+    const dummy = new Object3D();
     monolithsData.forEach((item, index) => {
       dummy.position.copy(item.position);
       dummy.scale.copy(item.scale);
@@ -138,7 +156,7 @@ const BackgroundScene = ({ reducedMotion, scrollRef, isMobile }: BackgroundScene
 
   const stars = useMemo(() => {
     const starCount = isMobile ? 520 : 900;
-    const geometry = new THREE.BufferGeometry();
+    const geometry = new BufferGeometry();
     const starPositions = new Float32Array(starCount * 3);
 
     for (let i = 0; i < starCount; i++) {
@@ -150,8 +168,8 @@ const BackgroundScene = ({ reducedMotion, scrollRef, isMobile }: BackgroundScene
       starPositions[i * 3 + 2] = Math.sin(theta) * radius;
     }
 
-    geometry.setAttribute("position", new THREE.BufferAttribute(starPositions, 3));
-    const material = new THREE.PointsMaterial({
+    geometry.setAttribute("position", new BufferAttribute(starPositions, 3));
+    const material = new PointsMaterial({
       color: 0x9ad7ff,
       size: 0.6,
       sizeAttenuation: true,
@@ -164,7 +182,7 @@ const BackgroundScene = ({ reducedMotion, scrollRef, isMobile }: BackgroundScene
 
   const ringMaterial = useMemo(
     () =>
-      new THREE.MeshStandardMaterial({
+      new MeshStandardMaterial({
         color: 0x25d4cc,
         emissive: 0x25d4cc,
         emissiveIntensity: 0.5,
@@ -178,7 +196,7 @@ const BackgroundScene = ({ reducedMotion, scrollRef, isMobile }: BackgroundScene
 
   const orbitMaterial = useMemo(
     () =>
-      new THREE.MeshStandardMaterial({
+      new MeshStandardMaterial({
         color: 0x9ad7ff,
         emissive: 0x9ad7ff,
         emissiveIntensity: 0.6,
@@ -190,10 +208,10 @@ const BackgroundScene = ({ reducedMotion, scrollRef, isMobile }: BackgroundScene
 
   const beaconMaterials = useMemo(() => {
     const count = isMobile ? 7 : 9;
-    const materials: THREE.MeshStandardMaterial[] = [];
+    const materials: MeshStandardMaterial[] = [];
     for (let i = 0; i < count; i++) {
       materials.push(
-        new THREE.MeshStandardMaterial({
+        new MeshStandardMaterial({
           color: 0x1d3a46,
           emissive: 0x25d4cc,
           emissiveIntensity: 0.35,
@@ -222,26 +240,26 @@ const BackgroundScene = ({ reducedMotion, scrollRef, isMobile }: BackgroundScene
   }, [isMobile]);
 
   const signal = useMemo(() => {
-    const points: THREE.Vector3[] = [];
+    const points: Vector3[] = [];
     const signalCount = 60;
     for (let i = 0; i < signalCount; i++) {
       const t = i / (signalCount - 1);
       const angle = t * Math.PI * 2;
       const radius = 24 + Math.sin(t * Math.PI * 4) * 4;
       points.push(
-        new THREE.Vector3(
+        new Vector3(
           Math.cos(angle) * radius,
           2 + Math.sin(t * Math.PI * 2) * 3,
           Math.sin(angle) * radius
         )
       );
     }
-    return new THREE.BufferGeometry().setFromPoints(points);
+    return new BufferGeometry().setFromPoints(points);
   }, []);
 
   const signalMaterial = useMemo(
     () =>
-      new THREE.LineBasicMaterial({
+      new LineBasicMaterial({
         color: 0x25d4cc,
         transparent: true,
         opacity: 0.35,
@@ -250,7 +268,7 @@ const BackgroundScene = ({ reducedMotion, scrollRef, isMobile }: BackgroundScene
   );
 
   const signalLine = useMemo(() => {
-    return new THREE.Line(signal, signalMaterial);
+    return new Line(signal, signalMaterial);
   }, [signal, signalMaterial]);
 
   const droneData = useMemo(() => {
@@ -267,7 +285,11 @@ const BackgroundScene = ({ reducedMotion, scrollRef, isMobile }: BackgroundScene
     return items;
   }, [isMobile]);
 
-  const updateTerrain = (time: number, heightScale: number, waveScale: number) => {
+  const updateTerrain = (
+    time: number,
+    heightScale: number,
+    waveScale: number
+  ) => {
     const offset = time * 0.6;
 
     for (let i = 0; i < terrain.positionAttribute.count; i++) {
@@ -279,8 +301,7 @@ const BackgroundScene = ({ reducedMotion, scrollRef, isMobile }: BackgroundScene
         offset * 0.08
       );
       const wave =
-        Math.sin(x * 0.05 + offset * 1.2) +
-        Math.cos(z * 0.04 - offset * 1.05);
+        Math.sin(x * 0.05 + offset * 1.2) + Math.cos(z * 0.04 - offset * 1.05);
       terrain.positions[i * 3 + 1] =
         terrain.baseHeights[i] +
         n * terrainHeight * heightScale +
@@ -310,14 +331,16 @@ const BackgroundScene = ({ reducedMotion, scrollRef, isMobile }: BackgroundScene
     const drift = reducedMotion ? 0 : elapsed;
 
     if (!reducedMotion) {
-      const terrainAmp = THREE.MathUtils.lerp(0.7, 1.35, scrollT);
-      const waveAmp = THREE.MathUtils.lerp(0.6, 1.4, scrollT);
+      const terrainAmp = MathUtils.lerp(0.7, 1.35, scrollT);
+      const waveAmp = MathUtils.lerp(0.6, 1.4, scrollT);
       updateTerrain(elapsed, terrainAmp, waveAmp);
     }
 
     const cameraOrbit = 0.18 + scrollT * 0.2;
     camera.position.x =
-      pointer.current.x * 6 + Math.sin(drift * cameraOrbit) * 12 + scrollWave * 4;
+      pointer.current.x * 6 +
+      Math.sin(drift * cameraOrbit) * 12 +
+      scrollWave * 4;
     camera.position.y =
       16 + pointer.current.y * -3 + Math.sin(drift * 0.25) * 1.8 + scrollT * 6;
     camera.position.z = 48 + Math.cos(drift * 0.15) * 6 - scrollT * 12;
@@ -367,7 +390,8 @@ const BackgroundScene = ({ reducedMotion, scrollRef, isMobile }: BackgroundScene
 
     if (signalPathRef.current) {
       signalPathRef.current.rotation.y = drift * 0.2 + scrollT * 0.6;
-      signalPathRef.current.position.y = 1 + Math.sin(drift * 0.4) * 0.6 + scrollT * 3;
+      signalPathRef.current.position.y =
+        1 + Math.sin(drift * 0.4) * 0.6 + scrollT * 3;
     }
     signalMaterial.opacity = 0.25 + scrollT * 0.35;
 
