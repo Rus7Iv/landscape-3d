@@ -1,0 +1,52 @@
+.notification-toast {
+  position: fixed;
+  bottom: 32px;
+  right: clamp(20px, 6vw, 80px);
+  z-index: 6;
+  padding: 14px 18px 16px;
+  border-radius: 18px;
+  background: linear-gradient(140deg, rgba(13, 18, 24, 0.92), rgba(13, 18, 24, 0.6));
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow);
+  backdrop-filter: blur(16px);
+  display: grid;
+  gap: 6px;
+  opacity: 0;
+  transform: translateY(12px);
+  pointer-events: none;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.notification-toast::before {
+  content: "";
+  width: 38px;
+  height: 2px;
+  border-radius: 999px;
+  background: linear-gradient(120deg, var(--accent), var(--accent-2));
+}
+
+.notification-toast--visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.notification-toast__tag {
+  font-family: var(--font-mono);
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  font-size: 0.62rem;
+  color: var(--accent-2);
+}
+
+.notification-toast__copy {
+  font-size: 0.95rem;
+  color: var(--text);
+}
+
+@media (max-width: 640px) {
+  .notification-toast {
+    left: 20px;
+    right: 20px;
+    bottom: 20px;
+  }
+}

@@ -1,0 +1,22 @@
+.labs-section__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 20px;
+}
+
+.labs-section__link-card {
+  padding: clamp(20px, 3vw, 28px);
+  border-radius: 20px;
+  background: linear-gradient(130deg, rgba(37, 212, 204, 0.12), rgba(12, 18, 25, 0.75));
+  border: 1px solid var(--border);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.labs-section__link-card h3 {
+  margin: 12px 0 6px;
+  font-size: 1.4rem;
+}

@@ -1,0 +1,20 @@
+.inline-scene-card {
+  padding: 18px;
+  border-radius: 18px;
+  background: var(--glass);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow);
+  display: grid;
+  gap: 16px;
+}
+
+.inline-scene-card__copy h3 {
+  margin: 0;
+  font-size: 1.2rem;
+}
+
+.inline-scene-card__copy p {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.6;
+}

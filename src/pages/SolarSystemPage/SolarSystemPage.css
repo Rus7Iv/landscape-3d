@@ -1,0 +1,89 @@
+.solar-system {
+  min-height: 100vh;
+  padding: 32px clamp(20px, 6vw, 80px) 32px;
+  display: grid;
+  gap: clamp(20px, 2vh, 40px);
+}
+
+.solar-system__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.solar-system__shell {
+  display: grid;
+  gap: 20px;
+  max-width: 1120px;
+}
+
+.solar-system__shell h1 {
+  margin: 0;
+}
+
+.solar-system__stage {
+  position: relative;
+  min-height: clamp(360px, 70vh, 720px);
+  border-radius: 28px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: radial-gradient(circle at 20% 20%, rgba(255, 106, 61, 0.15), rgba(8, 12, 18, 0.95));
+  overflow: hidden;
+  box-shadow: var(--shadow);
+  user-select: none;
+}
+
+.solar-system__overlay {
+  position: relative;
+  z-index: 2;
+  max-width: 360px;
+  margin: 0;
+  padding: 18px 20px;
+  border-radius: 18px;
+  border: 1px solid var(--border);
+  background: rgba(9, 12, 16, 0.65);
+  backdrop-filter: blur(14px);
+  display: grid;
+  gap: 10px;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.solar-system__overlay-wrap {
+  position: absolute;
+  top: clamp(14px, 3vw, 24px);
+  right: clamp(14px, 3vw, 24px);
+  z-index: 3;
+  display: grid;
+  justify-items: end;
+  gap: 10px;
+}
+
+.solar-system__overlay--closed {
+  opacity: 0;
+  transform: translateY(-10px) scale(0.98);
+  pointer-events: none;
+}
+
+.solar-system__overlay--open {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+.solar-system__overlay-toggle {
+  padding: 10px 16px;
+  border-radius: 999px;
+  background: rgba(10, 14, 18, 0.7);
+  color: var(--text);
+  border: 1px solid var(--border);
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background 0.3s ease, border 0.3s ease, transform 0.3s ease;
+}
+
+.solar-system__overlay-toggle:hover {
+  background: rgba(255, 255, 255, 0.1);
+  transform: translateY(-1px);
+}
