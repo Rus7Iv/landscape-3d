@@ -466,9 +466,9 @@ button {
 
 .solar-system-page {
   min-height: 100vh;
-  padding: 32px clamp(20px, 6vw, 80px) 64px;
+  padding: 32px clamp(20px, 6vw, 80px) 32px;
   display: grid;
-  gap: clamp(24px, 6vh, 40px);
+  gap: clamp(20px, 2vh, 40px);
 }
 
 .solar-system-header {
@@ -482,6 +482,10 @@ button {
   display: grid;
   gap: 20px;
   max-width: 1120px;
+}
+
+.solar-system-shell h1 {
+  margin: 0;
 }
 
 .solar-system-stage {

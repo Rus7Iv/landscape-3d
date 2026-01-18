@@ -58,10 +58,13 @@ const SolarSystemPage = () => {
             >
               Controls
             </button>
-            <div className={`solar-system-overlay ${overlayOpen ? "is-open" : "is-closed"}`}>
+            <div
+              className={`solar-system-overlay ${overlayOpen ? "is-open" : "is-closed"}`}
+            >
               <p className="tag">Controls</p>
               <p className="section-lead">
-                Drag to orbit, scroll to zoom, click a planet or the sun to focus.
+                Drag to orbit, scroll to zoom, click a planet or the sun to
+                focus.
               </p>
               <p className="section-lead">
                 Distances and radii are compressed to keep all bodies readable
@@ -69,14 +72,6 @@ const SolarSystemPage = () => {
               </p>
             </div>
           </div>
-        </div>
-        <div className="solar-system-actions">
-          <Link className="primary-button" to="/">
-            Return to the landing
-          </Link>
-          <Link className="ghost-button" to="/#labs">
-            See lab modules
-          </Link>
         </div>
       </section>
     </main>
